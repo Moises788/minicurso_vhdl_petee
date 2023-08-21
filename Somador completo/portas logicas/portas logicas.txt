@@ -1,0 +1,14 @@
+entity portas_logicas is
+	port(a , b : in bit;
+	o1,o2,o3,o4,o5,o6: out bit);
+end portas_logicas;
+
+architecture hardware of portas_logicas is
+begin
+	o1 <= a and b;
+	o2 <= a OR b;
+	o3 <= A XOR B;
+	o4 <= not a ;
+	o5 <= a nor b;
+	o6 <= a nand b;
+end hardware;
