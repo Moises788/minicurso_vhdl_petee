@@ -1,0 +1,25 @@
+entity somador_completo is
+	port(x,y : in bit_vector(3 downto 0);
+			cin : in bit;
+			s : out bit_vector(3 downto 0);
+			cout : out bit
+	);
+end somador_completo;
+
+architecture hardware of somador_completo is 
+
+	component soma_1bit
+	port(a,b,cin : in bit;
+	s, cout : out bit);
+	end component;
+	
+	signal aux : bit_vector(3 downto 1);
+	
+	begin
+	
+		x0: soma_1bit port map(x(0), y(0), cin, s(0), aux(1));
+		x1: soma_1bit port map(x(1), y(1), aux(1), s(1), aux(2));
+		x2: soma_1bit port map(x(2), y(2), aux(2), s(2), aux(3));
+		x3: soma_1bit port map(x(3), y(3), aux(3), s(3), cout);
+		
+	end hardware;
