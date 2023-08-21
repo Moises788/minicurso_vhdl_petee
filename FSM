@@ -1,0 +1,47 @@
+entity FSM is 
+	port(
+		clk : in bit;
+		control : in bit;
+		rst : in bit;
+		q : out bit_vector(1 downto 0));
+end FSM;
+
+architecture hardware of FSM is
+
+	type st is (caso_d, caso_c, caso_b, caso_a);
+	signal estado : st;
+	
+begin 
+	my_process : process(clk, rst)
+	begin
+		if rst = '1' then
+			estado <= caso_a;
+		elsif(clk'event and clk = '1') then
+			case estado is
+				when caso_a =>
+					if control = '1' then estado <= caso_b;
+					else estado <= caso_d;
+					end if;
+				when caso_b =>
+					if control = '1' then estado <= caso_c;
+					else estado <= caso_a;
+					end if;
+				when caso_c =>
+					if control = '1' then estado <= caso_d;
+					else estado <= caso_b;
+					end if;
+				when caso_d =>
+					if control = '1' then estado <= caso_a;
+					else estado <= caso_c;
+					end if;
+			end case;
+		end if;	
+	end process my_process;
+					
+	with estado select 
+		q <= "00" when caso_a,
+			  "01" when caso_b,
+		     "10" when caso_c,
+		     "11" when caso_d;
+			  
+end hardware;
